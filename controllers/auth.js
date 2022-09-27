@@ -24,7 +24,7 @@ const login = (req, res, next) => Users.findOne({ email: req.body.email }).selec
            NODE_ENV === 'production' ? JWT_SECRET : 'secret',
            { expiresIn: '7d' });
         res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true });
-        req.user = { _id: user._id };
+        req.user = user;
         return res.send({ token });
       })
       .catch((err) => next(err));

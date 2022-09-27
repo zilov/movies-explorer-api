@@ -17,7 +17,7 @@ const checkToken = async (req, res, next) => {
   if (!user) {
     return next(new NotFoundError('Please sign in! Token is expired, cannot find user!'));
   }
-  req.user = decoded;
+  req.user = user;
   return next();
 }
 
