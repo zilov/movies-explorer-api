@@ -29,8 +29,7 @@ const deleteMovie = (req, res, next) => Movies.findById(req.params.id)
     if (!movie) {
       throw new NotFoundError('Movie was already deleted or not exists');
     }
-    // eslint-disable-next-line
-    if (req.user._id != movie.owner._id) {
+    if (!req.user._id.equals(movie.owner)) {
       throw new ForbiddenError('Cannot delete movie of other users');
     }
     return Movies.findByIdAndDelete(req.params.id);
