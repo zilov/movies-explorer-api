@@ -8,6 +8,9 @@ const {
 } = require('../controllers/errors');
 
 const checkToken = async (req, res, next) => {
+  if (!req.cookies.jwt) {
+    return next(new UnauthorizedError('Cannot find JWT! Please sign in!'));
+  }
   const decoded = await jwt.verify(req.cookies.jwt,
     NODE_ENV === 'production' ? JWT_SECRET : 'secret');
   if (!decoded) {
