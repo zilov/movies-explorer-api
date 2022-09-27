@@ -28,7 +28,7 @@ app.use(requestLogger);
 app.use(cors);
 
 app.get('/test', (req, res) => {
-  res.send({message: 'Connection successful!'})
+  res.send({ message: 'Connection successful!' });
 });
 
 app.get('/crash-test', () => {
@@ -79,6 +79,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(3000, () => {
-  console.log('Server started!');
-  console.log(`Mode: ${process.env.NODE_ENV}`)
+  console.log('Server started!'); // eslint-disable-line
 });

@@ -44,9 +44,8 @@ const deleteMovie = (req, res, next) => Movies.findById(req.params.id)
     return next(new InternalServerError(err.message));
   });
 
-
-  module.exports = {
-    getMovies,
-    addMovie,
-    deleteMovie
-  };
+module.exports = {
+  getMovies,
+  addMovie,
+  deleteMovie,
+};

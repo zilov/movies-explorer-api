@@ -7,7 +7,7 @@ const {
   AlreadyExistsError,
   NotFoundError,
   InternalServerError,
-} = require('./errors');``
+} = require('./errors');
 
 const createUser = (req, res, next) => {
   const { email, password } = req.body;
@@ -48,16 +48,16 @@ const getCurrentUser = (req, res, next) => Users.findById(req.user._id)
   });
 
 const updateUserInfo = (req, res, next) => {
-  console.log(req.user)
   Users.findByIdAndUpdate(
     req.user._id,
-    { $set: 
-      { 
-        name: 
-          req.body.name ? req.body.name : req.user.name, 
-        email: 
-          req.body.email ? req.body.email : req.user.email 
-      } 
+    {
+      $set:
+      {
+        name:
+          req.body.name ? req.body.name : req.user.name,
+        email:
+          req.body.email ? req.body.email : req.user.email,
+      },
     },
     { new: true, runValidators: true },
   )
