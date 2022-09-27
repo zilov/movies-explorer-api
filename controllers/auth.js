@@ -36,6 +36,19 @@ const login = (req, res, next) => Users.findOne({ email: req.body.email }).selec
     return next(new InternalServerError(`Cannot get access to server for login: ${err.message}`));
   });
 
+
+const logout = (req, res, next) => {
+  if (req.cookies.jwt) {
+    res.clearCookie("jwt");
+    return res.send({message: "Logout successful!"});
+  } else if (!req.cookies.jwt) {
+    return next(new UnauthorizedError("User was already logout"))
+  } else {
+    return next(new InternalServerError(`Cannot get access to server for login: ${err.message}`));
+  }
+}
+
 module.exports = {
-  login
+  login,
+  logout
 };

@@ -8,7 +8,7 @@ const {
 const { router } = require('./routes/index');
 const { createUser } = require('./controllers/users');
 const { checkToken } = require('./middlewares/auth');
-const { login } = require('./controllers/auth');
+const { login, logout } = require('./controllers/auth');
 const { cors } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 require('dotenv').config();
@@ -51,6 +51,8 @@ app.post('/signup', celebrate({
     name: Joi.string().min(2).max(30).required(),
   }),
 }), createUser);
+
+app.post('/signout', logout);
 
 app.use(checkToken);
 
