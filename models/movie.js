@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
+const { errorMessages } = require("../utils/constants");
 
 const movieSchema = new mongoose.Schema({
   nameRU: {
@@ -31,17 +33,17 @@ const movieSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    validate: /https?:\/\/(www\.)?[-a-zA-Z0-9:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/, // eslint-disable-line
+    validate: [validator.isURL, errorMessages.nonValidURL],
     required: true,
   },
   trailerLink: {
     type: String,
-    validate: /https?:\/\/(www\.)?[-a-zA-Z0-9:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/, // eslint-disable-line
+    validate: [validator.isURL, errorMessages.nonValidURL],
     required: true,
   },
   thumbnail: {
     type: String,
-    validate: /https?:\/\/(www\.)?[-a-zA-Z0-9:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/, // eslint-disable-line
+    validate: [validator.isURL, errorMessages.nonValidURL],
     required: true,
   },
   owner: {

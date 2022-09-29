@@ -1,5 +1,7 @@
 const errorMessages = {
   nonValidURL: 'URL is not valid!',
+  nonValidEmail: 'Email is not valid',
+
 
 }
 
