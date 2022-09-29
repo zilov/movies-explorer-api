@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { jwtSecretDevelopment } = require('../config');
 const Users = require('../models/user');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -22,7 +23,7 @@ const login = (req, res, next) => Users.findOne({ email: req.body.email }).selec
         }
         const token = jwt.sign(
           { _id: user._id },
-          NODE_ENV === 'production' ? JWT_SECRET : 'secret',
+          NODE_ENV === 'production' ? JWT_SECRET : jwtSecretDevelopment,
           { expiresIn: '7d' },
         );
         res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true });

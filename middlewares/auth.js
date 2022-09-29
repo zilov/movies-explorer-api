@@ -7,6 +7,7 @@ const {
   UnauthorizedError,
   NotFoundError,
 } = require('../controllers/errors');
+const { jwtSecretDevelopment } = require('../config');
 
 const checkToken = async (req, res, next) => {
   if (!req.cookies.jwt) {
@@ -14,7 +15,7 @@ const checkToken = async (req, res, next) => {
   }
   const decoded = await jwt.verify(
     req.cookies.jwt,
-    NODE_ENV === 'production' ? JWT_SECRET : 'secret',
+    NODE_ENV === 'production' ? JWT_SECRET : jwtSecretDevelopment,
   );
   if (!decoded) {
     return next(new UnauthorizedError('Cannot find JWT! Please sign in!'));
