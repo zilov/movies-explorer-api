@@ -11,6 +11,21 @@ const commonJoiValidators = {
   }),
 }
 
+const postSignInValidator = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email({ minDomainSegments: 2 }),
+    password: Joi.string().required(),
+  }),
+})
+
+const postSignUpValidator = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email({ minDomainSegments: 2 }),
+    password: Joi.string().required(),
+    name: Joi.string().min(2).max(30).required(),
+  }),
+})
+
 const postMovieValidator = celebrate({
   body: Joi.object().keys({
     nameRU: Joi.string().required(),
@@ -20,9 +35,9 @@ const postMovieValidator = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: commonJoiValidators.required(),
-    trailerLink: commonJoiValidators.required(),
-    thumbnail: commonJoiValidators.required(),
+    image: commonJoiValidators.link.required(),
+    trailerLink: commonJoiValidators.link.required(),
+    thumbnail: commonJoiValidators.link.required(),
     movieId: Joi.number().required(),
   }),
 });
@@ -41,6 +56,8 @@ const patchUserValidator = celebrate({
 })
 
 module.exports = {
+  postSignInValidator,
+  postSignUpValidator,
   postMovieValidator,
   deleteMovieValidator,
   patchUserValidator
