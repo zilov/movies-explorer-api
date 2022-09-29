@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -6,14 +7,11 @@ const {
   celebrate, Joi, isCelebrateError,
 } = require('celebrate');
 const { router } = require('./routes/index');
-const { createUser } = require('./controllers/users');
-const { checkToken } = require('./middlewares/auth');
-const { login, logout } = require('./controllers/auth');
 const { cors } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-require('dotenv').config();
+const { mongodb } = require('./config');
 
-mongoose.connect('mongodb://localhost:27017/savemoviesdb', {
+mongoose.connect(mongodb, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -26,35 +24,6 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 app.use(cors);
-
-app.get('/test', (req, res) => {
-  res.send({ message: 'Connection successful!' });
-});
-
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
-
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email({ minDomainSegments: 2 }),
-    password: Joi.string().required(),
-  }),
-}), login);
-
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email({ minDomainSegments: 2 }),
-    password: Joi.string().required(),
-    name: Joi.string().min(2).max(30).required(),
-  }),
-}), createUser);
-
-app.post('/signout', logout);
-
-app.use(checkToken);
 
 app.use(router);
 
