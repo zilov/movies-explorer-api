@@ -54,9 +54,9 @@ const updateUserInfo = (req, res, next) => {
       $set:
       {
         name:
-          req.body.name ? req.body.name : req.user.name,
+          req.body.name,
         email:
-          req.body.email ? req.body.email : req.user.email,
+          req.body.email,
       },
     },
     { new: true, runValidators: true },
