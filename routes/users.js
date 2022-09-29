@@ -3,14 +3,10 @@ const { celebrate, Joi } = require('celebrate');
 const {
   getCurrentUser, updateUserInfo,
 } = require('../controllers/users');
+const { patchUserValidator } = require('../utils/joiValidators');
 
 router.get('/users/me', getCurrentUser);
 
-router.patch('/users/me', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    email: Joi.string().min(2).max(30).email(),
-  }),
-}), updateUserInfo);
+router.patch('/users/me', patchUserValidator, updateUserInfo);
 
 module.exports = router;
