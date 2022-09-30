@@ -1,4 +1,6 @@
 const { isCelebrateError } = require('celebrate');
+const { errorMessages } = require('../utils/constants');
+const mongoose = require('mongoose');
 
 const handleCelebrateErrors = (res, err) => {
   // https://github.com/arb/celebrate/issues/224 - иначе месседж пустой
@@ -9,10 +11,20 @@ const handleCelebrateErrors = (res, err) => {
   return res.status(400).send({ message });
 }
 
+const handleMongooseErrors = (err) => {
+  if (err instanceof mongoose.Error.ValidationError) {
+    err = new BadRequestError(`${errorMessages.validationError}: ${err.message}`);
+  } else if (err instanceof mongoose.Error.CastError) {
+    err = new BadRequestError(`${errorMessages.mongoIdValidity}: ${err.message}`);
+  }
+  return err;
+}
+
 const errorHandler = (err, req, res, next) => {
   if (isCelebrateError(err)) {
     handleCelebrateErrors(res, err);
   } else {
+    err = handleMongooseErrors(err);
     const { message } = err;
     res.status(err.statusCode || 500).send({message: message || 'Произошла ошибка на сервере!'})
   }

@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
-const mongoose = require('mongoose');
 const Users = require('../models/user');
+const { errorMessages, successMessages } = require('../utils/constants');
 
 const {
   BadRequestError,
@@ -13,7 +13,7 @@ const createUser = (req, res, next) => {
   return Users.findOne({ email })
     .then((user) => {
       if (user) {
-        throw new AlreadyExistsError('User is already exists! Please sign in!');
+        throw new AlreadyExistsError(errorMessages.userAlreadyExists);
       }
       return bcrypt.hash(password, 10);
     })
@@ -21,11 +21,8 @@ const createUser = (req, res, next) => {
       req.body.password = hash;
       return Users.create(req.body);
     })
-    .then(() => res.send({ message: 'User successfully created!' }))
+    .then(() => res.send({ message: successMessages.userCreated }))
     .catch((err) => {
-      if (err instanceof mongoose.Error.ValidationError) {
-        return next(new BadRequestError(`Validation error: ${err.message}`));
-      }
       return next(err);
     });
 };
@@ -33,7 +30,7 @@ const createUser = (req, res, next) => {
 const getCurrentUser = (req, res, next) => Users.findById(req.user._id)
   .then((user) => {
     if (!user) {
-      throw new NotFoundError('User not found!');
+      throw new NotFoundError(errorMessages.userNotFound);
     }
     return res.send(user);
   })
@@ -57,14 +54,11 @@ const updateUserInfo = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        throw new BadRequestError(`Cannot update user info! ${req.user._id}`);
+        throw new BadRequestError(`${errorMessages.cannotUpdateUser} ${req.user._id}`);
       }
       return res.send(user);
     })
     .catch((err) => {
-      if (err instanceof mongoose.Error.ValidationError) {
-        return next(new BadRequestError(`Validation error: ${err.message}`));
-      }
       return next(err);
     });
 };

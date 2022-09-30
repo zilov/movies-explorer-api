@@ -8,21 +8,22 @@ const {
   NotFoundError,
 } = require('../controllers/errors');
 const { jwtSecretDevelopment } = require('../config');
+const { errorMessages } = require('../utils/constants');
 
 const checkToken = async (req, res, next) => {
   if (!req.cookies.jwt) {
-    return next(new UnauthorizedError('Cannot find JWT! Please sign in!'));
+    return next(new UnauthorizedError(errorMessages.jwtNotFound));
   }
   const decoded = await jwt.verify(
     req.cookies.jwt,
     NODE_ENV === 'production' ? JWT_SECRET : jwtSecretDevelopment,
   );
   if (!decoded) {
-    return next(new UnauthorizedError('Cannot find JWT! Please sign in!'));
+    return next(new UnauthorizedError(errorMessages.jwtNotFound));
   }
   const user = await Users.findById(decoded);
   if (!user) {
-    return next(new NotFoundError('Please sign in! Token is expired, cannot find user!'));
+    return next(new NotFoundError(errorMessages.expiredToken));
   }
   req.user = user;
   return next();

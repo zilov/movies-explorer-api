@@ -1,10 +1,8 @@
-const mongoose = require('mongoose');
 const Movies = require('../models/movie');
+const { errorMessages, successMessages } = require('../utils/constants');
 
 const {
-  BadRequestError,
   NotFoundError,
-  InternalServerError,
   ForbiddenError,
 } = require('./errors');
 
@@ -17,9 +15,6 @@ const addMovie = (req, res, next) => {
   return Movies.create(req.body)
     .then((movie) => res.send(movie))
     .catch((err) => {
-      if (err instanceof mongoose.Error.ValidationError) {
-        return next(new BadRequestError(`Validation error: ${err.message}`));
-      }
       return next(err);
     });
 };
@@ -27,20 +22,16 @@ const addMovie = (req, res, next) => {
 const deleteMovie = (req, res, next) => Movies.findById(req.params.id)
   .then((movie) => {
     if (!movie) {
-      throw new NotFoundError('Movie was already deleted or not exists');
+      throw new NotFoundError(errorMessages.deleteMovie);
     }
     if (!req.user._id.equals(movie.owner)) {
-      throw new ForbiddenError('Cannot delete movie of other users');
+      throw new ForbiddenError(errorMessages.deleteMovieOfOtherUser);
     }
     return Movies.findByIdAndDelete(req.params.id);
   })
-  .then(() => res.send({ message: 'Movie was successfully deleted' }))
+  .then(() => res.send({ message: successMessages.movieDeleted }))
   .catch((err) => {
-    if (err instanceof mongoose.Error.CastError) {
-      return next(new BadRequestError(`Id is not valid ${err.message}`));
-    } else {
       return next(err);
-    }
   });
 
 module.exports = {
