@@ -1,7 +1,7 @@
-const mongodb = 'mongodb://localhost:27017/moviesdb';
+const mongodbDevelopment = 'mongodb://localhost:27017/moviesdb';
 const jwtSecretDevelopment = 'secret';
 
 module.exports = {
-  mongodb,
+  mongodbDevelopment,
   jwtSecretDevelopment
 }
