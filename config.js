@@ -3,5 +3,5 @@ const jwtSecretDevelopment = 'secret';
 
 module.exports = {
   mongodbDevelopment,
-  jwtSecretDevelopment
-}
+  jwtSecretDevelopment,
+};

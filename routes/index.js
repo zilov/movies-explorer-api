@@ -10,8 +10,8 @@ const { errorMessages } = require('../utils/constants');
 router.use(testsRouter);
 router.use(authRouter);
 router.use(checkToken);
-router.use('/', userRouter);
-router.use('/', moviesRouter);
+router.use(userRouter);
+router.use(moviesRouter);
 
 router.use((req, res, next) => next(new NotFoundError(errorMessages[404])));
 

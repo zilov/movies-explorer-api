@@ -22,9 +22,7 @@ const createUser = (req, res, next) => {
       return Users.create(req.body);
     })
     .then(() => res.send({ message: successMessages.userCreated }))
-    .catch((err) => {
-      return next(err);
-    });
+    .catch((err) => next(err));
 };
 
 const getCurrentUser = (req, res, next) => Users.findById(req.user._id)
@@ -34,9 +32,7 @@ const getCurrentUser = (req, res, next) => Users.findById(req.user._id)
     }
     return res.send(user);
   })
-  .catch((err) => {
-    return next(err);
-  });
+  .catch((err) => next(err));
 
 const updateUserInfo = (req, res, next) => {
   Users.findByIdAndUpdate(
@@ -58,9 +54,7 @@ const updateUserInfo = (req, res, next) => {
       }
       return res.send(user);
     })
-    .catch((err) => {
-      return next(err);
-    });
+    .catch((err) => next(err));
 };
 
 module.exports = {

@@ -10,18 +10,18 @@ const errorMessages = {
   expiredToken: 'Please sign in! Token is expired, cannot find user!',
   deleteMovie: 'Movie was already deleted or not exists',
   deleteMovieOfOtherUser: 'Cannot delete movie of other users',
-  mongoIdValidity: "Id is not valid",
-}
+  mongoIdValidity: 'Id is not valid',
+};
 
 const successMessages = {
   userCreated: 'User successfully created!',
   movieDeleted: 'Movie was successfully deleted',
-}
+};
 
-urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
 
 module.exports = {
   errorMessages,
   successMessages,
-  urlRegex
-}
+  urlRegex,
+};

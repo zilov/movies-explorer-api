@@ -32,7 +32,7 @@ const login = (req, res, next) => Users.findOne({ email: req.body.email }).selec
       })
       .catch((err) => next(err));
   })
-  .catch((err) => {return next(err)});
+  .catch((err) => next(err));
 
 const logout = (req, res, next) => {
   if (req.cookies.jwt) {

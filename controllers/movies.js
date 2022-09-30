@@ -14,9 +14,7 @@ const addMovie = (req, res, next) => {
   req.body.owner = req.user._id;
   return Movies.create(req.body)
     .then((movie) => res.send(movie))
-    .catch((err) => {
-      return next(err);
-    });
+    .catch((err) => next(err));
 };
 
 const deleteMovie = (req, res, next) => Movies.findById(req.params.id)
@@ -30,9 +28,7 @@ const deleteMovie = (req, res, next) => Movies.findById(req.params.id)
     return Movies.findByIdAndDelete(req.params.id);
   })
   .then(() => res.send({ message: successMessages.movieDeleted }))
-  .catch((err) => {
-      return next(err);
-  });
+  .catch((err) => next(err));
 
 module.exports = {
   getMovies,
