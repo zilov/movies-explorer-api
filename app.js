@@ -8,6 +8,8 @@ const { cors } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { mongodbDevelopment } = require('./config');
 const { errorHandler } = require('./middlewares/errorHandler');
+const { rateLimiter } = require('./middlewares/rateLimiter');
+const { default: helmet } = require('helmet');
 const { NODE_ENV } = process.env;
 
 mongoose.connect(NODE_ENV === "production" ? MONGO_URL : mongodbDevelopment, {
@@ -17,6 +19,8 @@ mongoose.connect(NODE_ENV === "production" ? MONGO_URL : mongodbDevelopment, {
 });
 
 const app = express();
+app.use(helmet());
+app.use(rateLimiter);
 
 app.use(bodyParser.json());
 app.use(cookieParser());
