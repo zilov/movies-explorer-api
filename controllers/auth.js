@@ -32,12 +32,7 @@ const login = (req, res, next) => Users.findOne({ email: req.body.email }).selec
       })
       .catch((err) => next(err));
   })
-  .catch((err) => {
-    if (err instanceof UnauthorizedError) {
-      return next(err);
-    }
-    return next(new InternalServerError(`Cannot get access to server for login: ${err.message}`));
-  });
+  .catch((err) => {return next(err)});
 
 const logout = (req, res, next) => {
   if (req.cookies.jwt) {

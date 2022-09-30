@@ -6,7 +6,6 @@ const {
   BadRequestError,
   AlreadyExistsError,
   NotFoundError,
-  InternalServerError,
 } = require('./errors');
 
 const createUser = (req, res, next) => {
@@ -26,10 +25,8 @@ const createUser = (req, res, next) => {
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         return next(new BadRequestError(`Validation error: ${err.message}`));
-      } if (err instanceof AlreadyExistsError) {
-        return next(err);
       }
-      return next(new InternalServerError(err.message));
+      return next(err);
     });
 };
 
@@ -41,10 +38,7 @@ const getCurrentUser = (req, res, next) => Users.findById(req.user._id)
     return res.send(user);
   })
   .catch((err) => {
-    if (err instanceof NotFoundError) {
-      return next(err);
-    }
-    return next(new InternalServerError(err.message));
+    return next(err);
   });
 
 const updateUserInfo = (req, res, next) => {
@@ -70,10 +64,8 @@ const updateUserInfo = (req, res, next) => {
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         return next(new BadRequestError(`Validation error: ${err.message}`));
-      } if (err instanceof BadRequestError) {
-        return next(err);
       }
-      return next(new InternalServerError(err.message));
+      return next(err);
     });
 };
 

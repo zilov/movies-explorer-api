@@ -10,7 +10,7 @@ const {
 
 const getMovies = (req, res, next) => Movies.find({})
   .then((movies) => res.send(movies))
-  .catch((err) => next(new InternalServerError(err.message)));
+  .catch((err) => next(err));
 
 const addMovie = (req, res, next) => {
   req.body.owner = req.user._id;
@@ -20,7 +20,7 @@ const addMovie = (req, res, next) => {
       if (err instanceof mongoose.Error.ValidationError) {
         return next(new BadRequestError(`Validation error: ${err.message}`));
       }
-      return next(new InternalServerError(err.message));
+      return next(err);
     });
 };
 
@@ -38,10 +38,9 @@ const deleteMovie = (req, res, next) => Movies.findById(req.params.id)
   .catch((err) => {
     if (err instanceof mongoose.Error.CastError) {
       return next(new BadRequestError(`Id is not valid ${err.message}`));
-    } if (err instanceof NotFoundError || err instanceof ForbiddenError) {
+    } else {
       return next(err);
     }
-    return next(new InternalServerError(err.message));
   });
 
 module.exports = {
