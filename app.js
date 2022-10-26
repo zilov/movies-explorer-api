@@ -26,8 +26,8 @@ app.use(rateLimiter);
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(requestLogger);
 app.use(cors);
+app.use(requestLogger);
 
 app.use(router);
 

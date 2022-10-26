@@ -1,5 +1,5 @@
 const allowedCors = [
-  'localhost:3000',
+  'http://localhost:3001',
 ];
 
 // Значение для заголовка Access-Control-Allow-Methods по умолчанию (разрешены все типы запросов)
