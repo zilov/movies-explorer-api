@@ -21,7 +21,7 @@ const createUser = (req, res, next) => {
       req.body.password = hash;
       return Users.create(req.body);
     })
-    .then(() => res.send({ message: successMessages.userCreated }))
+    .then(() => res.send({ message: successMessages.userCreated, data: req.body }))
     .catch((err) => next(err));
 };
 

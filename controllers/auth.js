@@ -37,7 +37,7 @@ const login = (req, res, next) => Users.findOne({ email: req.body.email }).selec
 const logout = (req, res, next) => {
   if (req.cookies.jwt) {
     res.clearCookie('jwt');
-    return res.send({ message: 'Logout successful!' });
+    return res.send({ message: 'Logout successful!', status: 200 });
   } if (!req.cookies.jwt) {
     return next(new UnauthorizedError('User was already logout'));
   }

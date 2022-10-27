@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 router.get('/test', (req, res) => {
-  res.send({ message: 'Connection successful!' });
+  res.send({ message: 'Connection successful!', status: 200 });
 });
 
 router.get('/crash-test', () => {
