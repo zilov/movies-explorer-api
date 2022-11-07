@@ -7,7 +7,9 @@ const {
 } = require('./errors');
 
 const getMovies = (req, res, next) => Movies.find({})
-  .then((movies) => res.send(movies))
+  .then((movies) => {
+    res.send(movies.filter((movie) => req.user._id.equals(movie.owner)));
+  })
   .catch((err) => next(err));
 
 const addMovie = (req, res, next) => {
