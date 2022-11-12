@@ -1,5 +1,8 @@
 const allowedCors = [
   'http://localhost:3001',
+  'localhost:3000',
+  'http://zilov-portfolio.nomorepartiesxyz.ru',
+  'https://zilov-portfolio.nomorepartiesxyz.ru'
 ];
 
 // Значение для заголовка Access-Control-Allow-Methods по умолчанию (разрешены все типы запросов)
