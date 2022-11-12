@@ -6,10 +6,11 @@ const { errorMessages } = require('../utils/constants');
 const handleCelebrateErrors = (res, err) => {
   // https://github.com/arb/celebrate/issues/224 - иначе месседж пустой
   let message = '';
+  // eslint-disable-next-line no-restricted-syntax
   for (const value of err.details.values()) {
     message += `${value.message}; `;
   }
-  return res.status(400).send({ message });
+  res.status(400).send({ message });
 };
 
 const handleMongooseErrors = (err) => {
@@ -27,7 +28,7 @@ const errorHandler = (err, req, res, next) => {
   } else {
     const error = handleMongooseErrors(err);
     const { message } = error;
-    res.status(error.statusCode || 500).send({ message: message || 'Произошла ошибка на сервере!' });
+    res.status(error.statusCode || 500).send({ message: message || 'Произошла ошибка на сервере!', status: error.statusCode || 500 });
   }
   return next();
 };
