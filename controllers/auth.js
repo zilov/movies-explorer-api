@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { jwtSecretDevelopment } = require('../config');
 const Users = require('../models/user');
+const { errorMessages } = require('../utils/constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -13,13 +14,13 @@ const {
 const login = (req, res, next) => Users.findOne({ email: req.body.email }).select('+password')
   .then((user) => {
     if (!user) {
-      throw new UnauthorizedError('Wrong email or password');
+      throw new UnauthorizedError(errorMessages.wrongEmailOrPassword);
     }
     return bcrypt.compare(req.body.password, user.password)
       .then((matched) => {
         // если все ок - генерим и сохраняем jwt, если нет - кидаем ошибку
         if (!matched) {
-          throw new UnauthorizedError('Wrong email or password');
+          throw new UnauthorizedError(errorMessages.wrongEmailOrPassword);
         }
         const token = jwt.sign(
           { _id: user._id },
